@@ -3,7 +3,25 @@
 You can either start from the step with index 0, or the step with index 1.
 
 Return the minimum cost to reach the top of the floor.(Top floor is the nth index i.e the index after the last index of vector)*/
-//Recursio + Memoization
+//Recursion
+//TC: Exponential
+//SC: O(N)
+int rec(vector<int>& cost, int top){
+        if(top == 0)
+            return cost[0];
+        else if(top == 1)
+            return cost[1];
+
+         int ans = cost[top] + min(rec(cost, top-1, dp), rec(cost,top-2,dp));
+        return ans;
+    }
+    int minCostClimbingStairs(vector<int>& cost) {
+        int n = cost.size();
+        int ans = min(rec(cost, n-1),rec(cost, n-2)); //To reach the top floor, the cost of top floor itself needs to be excluded
+        return ans;
+    }
+};
+//Recursion + Memoization
 //TC: O(2N)
 //SC: O(N)
     int rec(vector<int>& cost, int top, vector<int>& dp){
