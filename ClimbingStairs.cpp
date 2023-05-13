@@ -5,12 +5,22 @@ int mem(vector<int>& dp, int n){
         if(dp[n] != -1) return dp[n];
         return mem(dp, n-1) + mem(dp, n-2);
 }
-    int tab(vector<int>& dp, int n){
+int tab(vector<int>& dp, int n){
         dp[0]=1, dp[1]=1;
         for(int i=2; i<=n; i++)
             dp[i]=dp[i-1]+dp[i-2];
         return dp[n];
  }
+ int space_opt(int n){  //SC: O(1)
+        int prev=1, prev2=0;
+
+        for(int i=2; i<=n; i++){
+            int curr = prev + prev2;
+            prev2 = prev;
+            prev = curr;
+        }
+        return prev;
+    }
  int climbStairs(int n) {
         vector<int> dp(n+1, -1); //dp[n] stores no. of ways to reach nth stair from 0th stair
         return tab(dp, n);
