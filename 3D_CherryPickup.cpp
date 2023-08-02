@@ -39,7 +39,8 @@ int rec(int r, int c1, int c2, int n, int m, vector<vector<int>>& grid){
         return maxi;
   }
 
-//Memoization: TC:O(N*M*M); SC:O(N)
+//Memoization: TC:O(N*M*M); SC:O(N*M*M + N)
+////dp[r][c1][c2] stores max no. of cherries collected by both when robot1 starts at (r,c1) and robot2 starts at (r,c2)
 int rec(int r, int c1, int c2, int n, int m, vector<vector<vector<int>>>& dp, vector<vector<int>>& grid){
         if(c1 < 0 or c2 < 0 or c1 >= m or c2 >= m) return -1e8;
 
@@ -57,7 +58,7 @@ int rec(int r, int c1, int c2, int n, int m, vector<vector<vector<int>>>& dp, ve
 
             for(int dc2=-1; dc2<=1; dc2++){
             
-                int val = (c1 == c2) ? grid[r][c1] : grid[r][c1]+grid[r][c2]; //Determining if both robots are on the same cell or not
+                int val = (c1 == c2) ? grid[r][c1] : grid[r][c1] + grid[r][c2]; //Determining if both robots are on the same cell or not
                 val += rec(r+1, c1 + dc1, c2 + dc2, n, m, dp, grid);
 
                 maxi = max(maxi, val);
@@ -66,9 +67,38 @@ int rec(int r, int c1, int c2, int n, int m, vector<vector<vector<int>>>& dp, ve
         return dp[r][c1][c2] = maxi;
     }
 
+//Tabulation: TC:O(N*M*M*9); SC:O(M*M*N)
 int cherryPickup(vector<vector<int>>& grid) {
       int n=grid.size(), m=grid[0].size();
       vector<vector<vector<int>>> dp(n, vector<vector<int>>(m, vector<int>(m, 0)));
 
-      return rec(0, 0, m-1, n, m, dp, grid);
-  }
+      //Set base cases
+        for(int c1=0; c1<m; c1++){ 
+            for(int c2=0; c2<m; c2++){
+                dp[n-1][c1][c2] = (c1 == c2) ? grid[n-1][c1] : grid[n-1][c1] + grid[n-1][c2];
+            }
+        }
+        
+        for(int r=n-2; r>=0; r--)
+        {
+            for(int c1=0; c1<m; c1++)
+            {
+                for(int c2=0; c2<m; c2++)
+                {
+                    for(int dc1=-1; dc1<=1; dc1++)
+                    {
+                        for(int dc2=-1; dc2<=1; dc2++)
+                        {
+                            int val = (c1 == c2) ? grid[r][c1] : grid[r][c1] + grid[r][c2];
+                            if(c1+dc1 >=0 and c1+dc1 < m and c2+dc2 >= 0 and c2+dc2 < m) val += dp[r+1][c1 + dc1][c2 + dc2];
+
+                            dp[r][c1][c2] = max(dp[r][c1][c2], val);
+                        }
+                    }
+                }
+            }
+        }
+
+        return dp[0][0][m-1];
+    }
+}
