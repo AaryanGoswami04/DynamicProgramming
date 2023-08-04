@@ -49,6 +49,36 @@ int calculateMinimumHP(vector<vector<int>>& dungeon) {
         return dp[0][0];
 }
 
+//Space optimisation: TC:O(M*N); SC:O(N)
+int calculateMinimumHP(vector<vector<int>>& dungeon) {
+        int m=dungeon.size(), n=dungeon[0].size();
+        vector<int> NextRow(n);
+
+        NextRow[n-1] = (dungeon[m-1][n-1] <= 0) ? -dungeon[m-1][n-1] + 1 : 1;
+
+        for(int c=n-2; c>=0; c--){ //Set the min health for last row
+            int minHealth = NextRow[c+1] - dungeon[m-1][c];
+            NextRow[c] = (minHealth <= 0) ? 1 : minHealth;
+        }
+        
+        for(int r=m-2; r>=0; r--)
+        {
+            vector<int> CurrRow(n,0);
+
+            for(int c=n-1; c>=0; c--)
+            {
+
+                int Right=1e9, Down=1e9;
+                if(c+1 < n) Right = CurrRow[c+1];
+                if(r+1 < m) Down = NextRow[c];
+       
+                int minHealth = min(Right, Down) - dungeon[r][c];
+                CurrRow[c] = (minHealth <= 0) ? 1 : minHealth;
+            }
+            NextRow = CurrRow;
+        }
+        return NextRow[0];
+}
 
     
 
