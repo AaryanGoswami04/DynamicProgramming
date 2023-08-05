@@ -33,3 +33,26 @@ bool subsetSumToK(int n, int k, vector<int> &arr) {
     }
     return dp[0][k];
 }
+
+//Space optimisation: TC:O(N*Target); SC:O(Target)
+bool subsetSumToK(int n, int k, vector<int> &arr) {
+    vector<bool> CurrRow(k+1,0), NextRow(k+1,0);
+
+    //Set base cases
+    NextRow[0] = true;
+    NextRow[arr[n-1]] = true;
+
+    for(int i=n-2; i>=0; i--){
+        
+        CurrRow[0] = true;
+        
+        for(int target=k; target>=1; target--){
+            bool NotTake = NextRow[target];
+            bool Take = (target >= arr[i]) ? NextRow[target-arr[i]] : false;
+
+            CurrRow[target] = NotTake or Take;
+        }
+        NextRow = CurrRow;
+    }
+    return CurrRow[k];
+}
