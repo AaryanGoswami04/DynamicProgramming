@@ -22,11 +22,46 @@ int minSubsetSumDifference(vector<int> &arr, int n) {
             dp[i][target] = NotTake | Take;
         }
     }
-    
-
+	
 	for(int sum1=0; sum1<=total/2; sum1++)
 	{
 		if(dp[n-1][sum1] == 1)
+		{
+			int sum2 = total-sum1;
+			mini = min(mini, abs(sum1-sum2));
+		}
+	}
+
+	return mini;
+}
+
+//Space optimisation:
+int minSubsetSumDifference(vector<int> &arr, int n) {
+	int total = 0,mini=1e9;
+
+	for(auto i:arr) total += i;
+
+	vector<bool> CurrRow(total+1,0), NextRow(total+1,0);
+
+    //Set base cases
+    NextRow[0] = true;
+    NextRow[arr[n-1]] = true;
+
+    for(int i=n-2; i>=0; i--){
+        
+        CurrRow[0] = true;
+        for(int target=total; target>=1; target--){
+            bool NotTake = NextRow[target];
+            bool Take = (target >= arr[i]) ? NextRow[target-arr[i]] : false;
+
+            CurrRow[target] = NotTake or Take;
+        }
+        NextRow = CurrRow;
+    }
+    
+	for(int sum1=0; sum1<=total/2; sum1++)
+	{
+		if(CurrRow[sum1] == 1)
 		{
 			int sum2 = total-sum1;
 			mini = min(mini, abs(sum1-sum2));
