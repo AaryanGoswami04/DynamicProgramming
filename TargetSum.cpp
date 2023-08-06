@@ -76,3 +76,34 @@ int findTargetSumWays(vector<int>& nums, int target) {
 
         return dp[0][target];
 }
+
+//Space optimisation: TC:O(N*Target); SC:O(Target)
+int findTargetSumWays(vector<int>& nums, int target) {
+        int n=nums.size();
+
+        int total_sum = 0;
+        for(auto i:nums) total_sum += i;
+
+        if(abs(target) > total_sum or (total_sum + target) % 2) return 0;
+
+        target = (total_sum + target)/2;
+        vector<int> CurrRow(target+1,0), NextRow(target+1,0);
+
+        NextRow[0] = (nums[n-1] == 0) ? 2:1;
+
+
+        if(nums[n-1] !=0 and nums[n-1] <= target) NextRow[nums[n-1]]=1;
+
+        for(int i=n-2; i>=0; i--)
+        {
+            for(int sum=target; sum>=0; sum--)
+            {
+                int notpick = NextRow[sum];
+                int pick = (nums[i] <= sum) ? NextRow[sum-nums[i]] : 0;
+                
+                CurrRow[sum] = notpick + pick;
+            }
+        }
+
+        return  CurrRow[target];
+}
