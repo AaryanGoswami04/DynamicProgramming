@@ -11,10 +11,10 @@ Return the number of different expressions that you can build, which evaluates t
 0 <= sum(nums[i]) <= 1000
 -1000 <= target <= 1000*/
 
-/*Same as counting no. of subsets with sum =(total+target)/2;
+/*Same as counting no. of subsets with sum =(total+target)/2 (or sum = (total-target)/2);
         Every No. has + or - before it. Consider the expression 2-4+5-6-7;
         It  is the same as partioning the array [2,4,5,6,7] into 2 subsets {2,5}, {4,6,7} whose difference = target;
-        S1+S2=Total; S1-S2=Target; This implies S1=(total+target)/2;
+        S1+S2=Total; S1-S2=Target; This implies S1=(total+target)/2 or S2=(total+target)/2;
     */
 
 //Memoization: TC:O(N*Target); SC:O(N*Target + N)
