@@ -46,3 +46,33 @@ int findTargetSumWays(vector<int>& nums, int target) {
 
         return rec(0, n, nums, dp, target);
   }
+
+//Tabulation: TC:O(N*Target); SC:O(N*Target)
+int findTargetSumWays(vector<int>& nums, int target) {
+        int n=nums.size();
+
+        int total_sum = 0;
+        for(auto i:nums) total_sum += i;
+
+        if(abs(target) > total_sum or (total_sum + target) % 2) return 0;
+
+        target = (total_sum + target)/2;
+        vector<vector<int>> dp(n,vector<int>(target+1,0));
+
+        //Set base cases
+        dp[n-1][0] = (nums[n-1] == 0) ? 2 : 1;  
+        if(nums[n-1] != 0 and nums[n-1] <= target) dp[n-1][nums[n-1]]=1;
+
+        for(int i=n-2; i>=0; i--)
+        {
+            for(int sum=target; sum>=0; sum--)
+            {
+                int notpick = dp[i+1][sum];
+                int pick = (nums[i] <= sum) ? dp[i+1][sum-nums[i]]: 0;
+                
+                dp[i][sum] = notpick + pick;
+            }
+        }
+
+        return dp[0][target];
+}
