@@ -1,5 +1,6 @@
 //https://www.codingninjas.com/studio/problems/longest-common-substring_1235207?source=youtube&campaign=striver_dp_videos&utm_source=youtube&utm_medium=affiliate&utm_campaign=striver_dp_videos&leftPanelTab=0
 //Tabulation: TC:O(M*N); SC:O(M*N)
+//dp[i][j] stores the length of longest common LCS ending at index i of s1 and index j of s2  
 int lcs(string &s1, string &s2){
     int n=s1.size();
     int m=s2.size();
