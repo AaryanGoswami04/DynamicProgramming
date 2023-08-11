@@ -41,8 +41,6 @@ int longestPalindromeSubseq(string s) {
 //Space optimisation: TC:O(N^2 + N); SC:O(2N)
 int longestPalindromeSubseq(string s) {
         int n=s.size();
-        vector<vector<int>> dp(n+1, vector<int>(n+1, 0));
-
         string rev_s = rev(s, n);
         
         vector<int> prev(n+1, 0), curr(n+1, 0);
