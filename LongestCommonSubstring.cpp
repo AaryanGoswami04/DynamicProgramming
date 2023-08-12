@@ -21,7 +21,6 @@ int lcs(string &s1, string &s2){
                 dp[i][j] = 1 + dp[i - 1][j - 1];
                 ans = max(ans, 1 + dp[i - 1][j - 1]);
               } 
-              else  dp[i][j] = 0;
             }
         }
        return ans;
