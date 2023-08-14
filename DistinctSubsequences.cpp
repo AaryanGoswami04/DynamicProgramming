@@ -51,3 +51,21 @@ int numDistinct(string s, string t) {
         }
         return (int)NextRow[0];
 }
+
+//Space optimisation: TC:O(M*N); SC:O(N)
+int numDistinct(string s, string t) {
+        int m=s.size(), n=t.size();
+         
+        vector<double> CurrRow(n+1,0); //To avoid TLE, data type is double
+
+        CurrRow[n] = 1;
+
+        for(int i=m-1; i>=0; i--)
+        {
+            for(int j=0; j<n; j++)
+            {
+                if(s[i] == t[j]) CurrRow[j] = CurrRow[j+1] + CurrRow[j];
+            }
+        }
+        return (int)CurrRow[0];
+}
