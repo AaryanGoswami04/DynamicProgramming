@@ -39,3 +39,18 @@ int maxProfit(vector<int>& prices) {
         
         return dp[0][1];
 }
+
+//Space optimisation: TC:O(N); SC:O(1)
+int maxProfit(vector<int>& prices) {
+        int n = prices.size();
+        vector<int> curr(2,0), next1(2,0), next2(2,0);
+
+        for(int i=n-1; i>=0; i--)
+        {
+            curr[1] = max(-prices[i] + next1[0], next1[1]);
+            curr[0] = max(prices[i] + next2[1], next1[0]);
+
+            next2 = next1;
+            next1 = curr;
+        }
+        return curr[1];}
