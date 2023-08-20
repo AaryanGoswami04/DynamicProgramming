@@ -22,7 +22,7 @@ int rec(int idx, int prev, int n, vector<int>& nums, vector<vector<int>>& dp){
 
         for(int i = n-1; i >= 0; i--)
         {
-            for(int prev = n; prev >= 0; prev--)
+            for(int prev = i; prev >= 0; prev--)
             {
                 int notpick = dp[i+1][prev];
                 int pick = (prev == 0 or nums[prev-1] < nums[i]) ? 1 + dp[i+1][i+1] : 0;
@@ -40,7 +40,7 @@ int lengthOfLIS(vector<int>& nums) {
 
         for(int i = n-1; i >= 0; i--)
         {
-            for(int prev = n; prev >= 0; prev--)
+            for(int prev = i; prev >= 0; prev--)
             {
                 int notpick = Next[prev];
                 int pick = (prev == 0 or nums[prev-1] < nums[i]) ? 1 + Next[i+1] : 0;
