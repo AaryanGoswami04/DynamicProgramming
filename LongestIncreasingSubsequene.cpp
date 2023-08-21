@@ -51,7 +51,7 @@ int lengthOfLIS(vector<int>& nums) {
         return Next[0];
 }
 
-//Optimised approach: TC:O(N^2); SC:O(N)
+//Optimised tabulation: TC:O(N^2); SC:O(N)
 //dp[i] stores length of LIS ending at index i
 int lengthOfLIS(vector<int>& nums) {
         int n = nums.size();
@@ -65,4 +65,26 @@ int lengthOfLIS(vector<int>& nums) {
             }
         }
         return ans;
+}
+
+//Binary Search: 
+//TC:O(N log N); SC:O(N)
+int lengthOfLIS(vector<int>& nums) {
+        int n = nums.size();
+        int len = 1;
+
+        vector<int> temp(1,nums[0]);
+
+        for(int i=1; i<n; i++)
+        {
+            if(nums[i] > temp.back()){
+                temp.push_back(nums[i]);
+                len++;
+            }
+            else{
+                int idx = lower_bound(temp.begin(), temp.end(), nums[i]) - temp.begin();
+                temp[idx] = nums[i];
+            }
+        }
+        return len;
 }
