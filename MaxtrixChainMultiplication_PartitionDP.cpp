@@ -1,4 +1,4 @@
-//https://www.codingninjas.com/studio/problems/matrix-chain-multiplication_975344?source=youtube&campaign=striver_dp_videos&utm_source=youtube&utm_medium=affiliate&utm_campaign=striver_dp_videos
+//Given the dimension of a sequence of matrices in an array arr[], where the dimension of the ith matrix is (arr[i-1] * arr[i]), the task is to find the most efficient way to multiply these matrices together such that the total number of element multiplications is minimum.
 
 //Memoization: TC:O(N^3); SC:O(N)
 //dp[i][j] stores the min operartions to multiply ith matrix to jth matrix
